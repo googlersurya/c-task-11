@@ -1,589 +1,717 @@
 #include<stdio.h>
-#include<dos.h>
+#include<stdlib.h>
 #include<windows.h>
-#include<conio.h>
-#include<time.h>
-#include<string.h>
-#include<ctype.h>
-HANDLE rHnd, wHnd;
-int initializeconsolehandles();
-void locate(int,int);
-void print();
-void initialize();
-int runsinoneover[50],runsinprevover=0,flagg=0;
-int position=1,undoupdatevariable=0,newbatsmancounter[11],newbatsmanincrement=0,current,extrarunsA,extrarunsB,bowlingcurrent,wicketnumber,teamAtotalruns=0,teamBtotalruns=0,teamAtotalovers=0,teamBtotalovers=0;
+#include <stdbool.h>
+int i,j;
+int main_exit;
+void menu();
+int atm();
+void close();
+struct date{
+    int month,day,year;
 
+    };
+struct {
 
-void final()//Function to give the input//
+    char name[60];
+    int acc_no,age;
+    char address[60];
+    char citizenship[15];
+    double phone;
+    char acc_type[10];
+    float amt;
+    struct date dob;
+    struct date deposit;
+    struct date withdraw;
+
+    }add,upd,check,rem,transaction;
+
+float interest(float t,float amount,int rate)
 {
-    int a,key;
-    char b;
-    char lastinput;
-    input='0';
-    while(input!=27)//to end the input loop//
-    {
-        printt();
-        while(1)
-        {
-             locate(0,33);
-                printf("Enter runs made |1|2|3|4|5|6|");
-                locate(30,33);
-           // locate(40,33);
-            fflush(stdin);
-            if ((input=getche()) == -32)//for arrow key switching//
-                input = getche();
-
-            fflush(stdin);
-            if(input==75||input==77)
-            {
-                printf("\b  ");
-                if(input==75);
-                    //tab5();
-                else
-                    tab2();
-            }
-            else  if(input=='\b')
-            {
-                printf("  ");
-                continue;
-            }
-            else if (input == '\r')//processes the input only when pressed enter//
-            {
-                input=toupper(lastinput);
-                // undoupdate();//excluded in the output//
-                tab1();
-                break;
-            }
-            else    if (input=='0'||input=='1'||input=='2'||input=='3'||input=='4'||input=='6'||toupper(input)=='W'||toupper(input)=='N')
-                lastinput = input;
-            else if(input==27)
-            {
-                printf("\b ");
-                break;
-            }
-            else
-                printf("\a\b ");
-            continue;
-        }
-    }
+    float SI;
+    SI=(rate*t*amount)/100.0;
+    return (SI);
 
 }
-
-
-void tab1()
-{
-    int calledfromwide=0,T;
-    char a;
-
-start:
-    if(input=='0')
-    {
-        if(calledfromwide==1)
-        {
-            teamA[current].totalruns=0;
-            extrarunsA+=0;
-        }
-        else
-        {
-            teamA[current].ballsfaced++;
-            bowlingteamA[bowlingcurrent].ballthrownincurrentover++;
-            if(bowlingteamA[bowlingcurrent].ballthrownincurrentover==6)
-            {
-                bowlingteamA[bowlingcurrent].overs++;
-                bowlingteamA[bowlingcurrent].ballthrownincurrentover=0;
-                ovatglance(bowlingteamA[bowlingcurrent].overs,teamA[current].totalruns);
-            }
-        }
-    }
-    if(input=='1')
-    {
-        if(calledfromwide==1)
-        {
-            bowlingteamA[bowlingcurrent].runs+=1;
-            teamA[current].totalruns++;
-            extrarunsA+=1;
-        }
-        else
-        {
-            bowlingteamA[bowlingcurrent].runs+=1;
-            teamA[current].totalruns+=1;
-            teamA[current].ballsfaced++;
-            bowlingteamA[bowlingcurrent].ballthrownincurrentover++;
-            if(bowlingteamA[bowlingcurrent].ballthrownincurrentover==6)
-            {
-                bowlingteamA[bowlingcurrent].overs++;
-                bowlingteamA[bowlingcurrent].ballthrownincurrentover=0;
-                ovatglance(bowlingteamA[bowlingcurrent].overs,teamA[current].totalruns);
-            }
-        }
-    }
-    if(input=='2')
-    {
-        if(calledfromwide==1)
-        {
-            bowlingteamA[bowlingcurrent].runs+=2;
-            teamA[current].totalruns+=2;
-            extrarunsA+=2;
-        }
-        else
-        {
-            bowlingteamA[bowlingcurrent].runs+=2;
-            teamA[current].totalruns+=2;
-            teamA[current].ballsfaced++;
-            bowlingteamA[bowlingcurrent].ballthrownincurrentover++;
-            if(bowlingteamA[bowlingcurrent].ballthrownincurrentover==6)
-            {
-                bowlingteamA[bowlingcurrent].overs++;
-                bowlingteamA[bowlingcurrent].ballthrownincurrentover=0;
-                ovatglance(bowlingteamA[bowlingcurrent].overs,teamA[current].totalruns);
-            }
-        }
-    }
-    if(input=='3')
-    {
-        if(calledfromwide==1)
-        {
-            bowlingteamA[bowlingcurrent].runs+=3;
-            teamA[current].totalruns+=3;
-            extrarunsA+=3;
-        }
-        else
-        {
-            bowlingteamA[bowlingcurrent].runs+=3;
-            teamA[current].totalruns+=3;
-            teamA[current].ballsfaced++;
-            bowlingteamA[bowlingcurrent].ballthrownincurrentover++;
-            if(bowlingteamA[bowlingcurrent].ballthrownincurrentover==6)
-            {
-                bowlingteamA[bowlingcurrent].overs++;
-                bowlingteamA[bowlingcurrent].ballthrownincurrentover=0;
-                ovatglance(bowlingteamA[bowlingcurrent].overs,teamA[current].totalruns);
-            }
-        }
-    }
-    if(input=='4')
-    {
-        if(calledfromwide==1)
-        {
-            bowlingteamA[bowlingcurrent].runs+=4;
-            teamA[current].totalruns+=4;
-            extrarunsA+=4;
-            teamA[current]._4s++;
-        }
-        else
-        {
-            bowlingteamA[bowlingcurrent].runs+=4;
-            teamA[current].totalruns+=4;
-            teamA[current].ballsfaced++;
-            teamA[current]._4s++;
-            bowlingteamA[bowlingcurrent].ballthrownincurrentover++;
-            if(bowlingteamA[bowlingcurrent].ballthrownincurrentover==6)
-            {
-                bowlingteamA[bowlingcurrent].overs++;
-                bowlingteamA[bowlingcurrent].ballthrownincurrentover=0;
-                ovatglance(bowlingteamA[bowlingcurrent].overs,teamA[current].totalruns);
-            }
-        }
-    }
-    if(input=='6')
-    {
-        if(calledfromwide==1)
-        {
-            bowlingteamA[bowlingcurrent].runs+=6;
-            teamA[current].totalruns+=6;
-            extrarunsA+=6;
-            teamA[current]._6s++;
-        }
-        else
-        {
-            bowlingteamA[bowlingcurrent].runs+=6;
-            teamA[current].totalruns+=6;
-            teamA[current].ballsfaced++;
-            teamA[current]._6s++;
-            bowlingteamA[bowlingcurrent].ballthrownincurrentover++;
-            if(bowlingteamA[bowlingcurrent].ballthrownincurrentover==6)
-            {
-                bowlingteamA[bowlingcurrent].overs++;
-                bowlingteamA[bowlingcurrent].ballthrownincurrentover=0;
-                ovatglance(bowlingteamA[bowlingcurrent].overs,teamA[current].totalruns);
-            }
-        }
-    }
-    if(input=='N')//for noballs
-    {
-        bowlingteamA[bowlingcurrent].runs+=1;
-        bowlingteamA[bowlingcurrent].noballs++;
-        teamA[current].totalruns++;
-        calledfromwide=1;
-        locate(0,34);
-        printf("Enter the runs made:0/1/2/3/4/6");
-        T=0;
-        while(T==0)
-        {
-            scanf(" %c",&input);
-            if(input=='0'||input=='1'||input=='2'||input=='3'||input=='4'||input=='5'||input=='6')
-            {
-                T=1;
-                goto start;
-            }
-            else
-            {
-                T=0;
-                printf("Invalid Input.Input:0/1/2/3/4/6");
-            }
-        }
-    }
-    if(input=='W')//for noballs
-    {
-        bowlingteamA[bowlingcurrent].runs+=1;
-        bowlingteamA[bowlingcurrent].wides++;
-        teamA[current].totalruns++;
-        calledfromwide=1;
-        locate(0,34);
-        printf("Enter the runs made:0/1/2/3/4/6:");
-        T=0;
-        while(T==0)
-        {
-            scanf(" %c",&input);
-            if(input=='0'||input=='1'||input=='2'||input=='3'||input=='4'||input=='5'||input=='6')
-            {
-                T=1;
-                goto start;
-            }
-            else
-            {
-                T=0;
-                locate(0,34);
-                printf("Invalid Input.Input:0/1/2/3/4/6 :");
-            }
-        }
-    }
-
-    float overs=bowlingteamA[bowlingcurrent].overs+((bowlingteamA[bowlingcurrent].ballthrownincurrentover)/6.);
-   // if(overs==0&&bowlingteamA[bowlingcurrent].ballthrownincurrentover==0)
-  //      bowlingteamA[bowlingcurrent].average=0;
-  //  else
-        bowlingteamA[bowlingcurrent].average=
-            bowlingteamA[bowlingcurrent].runs/overs;
-    calledfromwide=0;
-
+void fordelay(int j)
+{   int i,k;
+    for(i=0;i<j;i++)
+         k=i;
 }
 
-void tab2()
+void new_acc()
+
 {
-    int a;
+    int choice;
+    FILE *ptr;
 
-    while(1)
+    ptr=fopen("record.dat","a+");
+    account_no:
+    system("cls");
+    printf("\t\t\t==== ADD RECORD  ====");
+    printf("\n\n\nEnter today's date(mm/dd/yyyy):");
+    scanf("%d/%d/%d",&add.deposit.month,&add.deposit.day,&add.deposit.year);
+    printf("\nEnter the account number:");
+    scanf("%d",&check.acc_no);
+    while(fscanf(ptr,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
     {
-    locate(28,34);
-    printf("How out?");
-    locate(28,35);
-    printf("Fielding='F'");
-    locate(28,36);
-    printf("Catch-Out='C'");
-    locate(28,37);
-    printf("Wicket='W'");
-    locate(28,33);
-    char temp;
-
-        fflush(stdin);
-        if ((input = getche()) == -32)
-            input = getche();
-        fflush(stdin);
-        if(input==75||input==77)
-        {
-            printf("\b ");
-            locate(28,34);
-            printf("           ");
-            locate(28,35);
-            printf("              ");
-            locate(28,36);
-            printf("               ");
-            locate(28,37);
-            printf("                ");
-            locate(28,33);
-            if(input==77)
-            {
-                tab3();
-                //return ;
-            }
-            else if(input==75)
-            {
-                fflush(stdin);
-                return;
+        if (check.acc_no==add.acc_no)
+            {printf("Account no. already in use!");
+            fordelay(1000000000);
+                goto account_no;
 
             }
-        }
-        else  if(input=='\b')
-        {
-            printf("  ");
-            continue;
-        }
-        else if (input == '\r')
-        {
-            input=toupper(temp);
-            break;
-        }
-
-        else if(input=='F'||input=='C'||input=='W'||input=='f'||input=='c'||input=='w')
-        {
-            temp=input;
-            continue;
-        }
-        else
-        {
-            printf("\a\b\b  \b");
-        }
     }
-    locate(28,34);
-    printf("           ");
-    locate(28,35);
-    printf("              ");
-    locate(28,36);
-    printf("               ");
-    locate(28,37);
-    printf("                ");
-    input=toupper(input);
-    if(toupper(input)=='W')
-    {
-        strcpy(teamA[current].howout,"Wicket");
-        wicketnumber++;
-        wicketsA[wicketnumber].atruns = teamAtotalruns;
-        wicketsA[wicketnumber].overnumber = teamAtotalovers+1;
-        locate(28,34);
-        printf("Enter the fielder's name:");
-        gets(teamA[current].fielder);
-        locate(28,34);
-        printf("                                     ");
-        tab4();
-    }
-    if(toupper(input)=='C')
-    {
-        strcpy(teamA[current].howout,"Catchout");
-        wicketnumber++;
-        wicketsA[wicketnumber].atruns = teamAtotalruns;
-        wicketsA[wicketnumber].overnumber = teamAtotalovers+1;
-        locate(28,34);
-        printf("Enter the fielder's name:");
-        gets(teamA[current].fielder);
-        locate(28,34);
-        printf("                                     ");
-        tab4();
-    }
-    if(toupper(input)=='F')
-    {
-        strcpy(teamA[current].howout,"Fielding");
-        wicketnumber++;
-        tab1(input);
-        wicketsA[wicketnumber].atruns = teamAtotalruns;
-        wicketsA[wicketnumber].overnumber = teamAtotalovers+1;
-        locate(28,34);
-        printf("Enter the fielder's name:");
-        gets(teamA[current].fielder);
-        locate(28,34);
-        printf("                                     ");
-        tab4();
-    }
-}
+    add.acc_no=check.acc_no;
+        printf("\nEnter the name:");
+    scanf("%s",add.name);
+    printf("\nEnter the date of birth(mm/dd/yyyy):");
+    scanf("%d/%d/%d",&add.dob.month,&add.dob.day,&add.dob.year);
+    printf("\nEnter the age:");
+    scanf("%d",&add.age);
+    printf("\nEnter the address:");
+    scanf("%s",add.address);
+    printf("\nEnter the citizenship number:");
+    scanf("%s",add.citizenship);
+    printf("\nEnter the phone number: ");
+    scanf("%lf",&add.phone);
+    printf("\nEnter the amount to deposit:$");
+    scanf("%f",&add.amt);
+    printf("\nType of account:\n\t#Saving\n\t#Current\n\t#Fixed1(for 1 year)\n\t#Fixed2(for 2 years)\n\t#Fixed3(for 3 years)\n\n\tEnter your choice:");
+    scanf("%s",add.acc_type);
 
-void tab3()
-{
-    while(1)
-    {
-
-    char temp;
-    fflush(stdin);
-    locate(37,34);
-    printf("Select the bowler no.");
-        fflush(stdin);
-        locate(37,33);
-        if ((input=getche()) ==-32)
-            input = getche();
-        fflush(stdin);
-        if(input==75||input==77)
-        {
-            printf("\b ");
-            locate(37,34);
-            printf("                       ");
-            if(input==75)
-                //tab2();
-                return;
-            if (input==77)
-                tab4();
-        }
-        else  if(input=='\b')
-        {
-            printf("  ");
-            continue;
-        }
-        else if (input == '\r')
-        {
-            input=temp;
-            break;
-        }
-        else if(input=='1'||input=='2'||input=='3'||input=='4'||input=='5'||input=='6'||input=='7'||input=='8')
-        {
-            temp=input;
-            continue;
-        }
-        else
-        {
-            printf("\a\b\b  \b");
-        }
-    }
-    bowlingcurrent = input-49;
-    locate(37,33);
-    printf("   ");
-    locate(37,34);
-    printf("                                      ");
-    return;
-}
-
-void tab4()
-{
-    int currentinput = -1,number = 0;
-    fflush(stdin);
-
-    while (1){
-    locate(52,34);
-    printf("Select the new ");
-    locate(52,35);
-    printf("batsman no.from ");
-    locate(52,36);
-    printf("above list.");
-    if (currentinput == -1) locate(52,33) ; else locate (53,33);
-    if ((input=getch()) == -32)
-        input = getch();
-    fflush(stdin);
-
-    if(input==75||input==77)
-    {
-        printf("\b\b   ");
-        locate(52,34);
-        printf("                 ");
-        locate(52,35);
-        printf("                 ");
-        locate(52,36);
-        printf("              ");
-        if(input==75)
-            //tab3();
-            return;
-        if (input==77)
-        {
-            tab5();
-            //return;
-        }
-    }
-    else if(input >= '0' && input <='9' && number !=1)
-
-    {
-            if (currentinput == -1)
-            {
-                    printf ("%c",input);
-                    currentinput= input - '0';
-                    currentinput *= 10;
-            }
-            else{
-                if ((currentinput <10) || ( (input =='0' || input == '1') && currentinput>9))
-                {printf ("%c",input);
-                                currentinput += input - '0';
-                number = 1;     //Two numbers entered
-            }}
-    }
+        fprintf(ptr,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,add.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
 
 
-    else if (input == '\b')
-    {
-        if (number ==1 )printf ("\b  \b\b"); else printf ("\b \b");
-        currentinput = -1;
-        number = 0;
-    }
-    else if (input == '\r')
-    {current=currentinput -1;
-    //printf("%d",current);
-    fflush(stdin);
-
-    }
-    }
-}
-void tab5()
-{
-    while(1)
-    {
-
-    char ch;
-    fflush(stdin);
-    locate(68,34);
-    printf("Do you want ");
-    locate(68,35);
-    printf("to  end the ");
-    locate(68,36);
-    printf("inning?");
-        locate(68,33);
-        if ((input=getch()) == -32)
-            input = getch();
-        ch=input;
-        fflush(stdin);
-        if(input==75||input==77)
-        {
-            printf("\b ");
-            locate(68,34);
-            printf("             ");
-            locate(68,35);
-            printf("              ");
-            locate(68,36);
-            printf("            ");
-            if(input==75)
-                //tab4();
-                return;
-            if (input==77)
-            {
-                fflush(stdin);
-                //tab1();
-                //return;
-            }
-        }
-        if(toupper(input)=='Y')
-        {
-            locate(68,34);
-            printf("             ");
-            locate(68,35);
-            printf("              ");
-            locate(68,36);
-            printf("            ");
-            return;
-        }
-        else
-            printf("\a\b ");
-    }
-    fflush(stdin);
-    return;
-}
-
-int initializeconsolehandles()
-{
-    rHnd = GetStdHandle(STD_INPUT_HANDLE);
-    wHnd = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (rHnd && wHnd)
-        return TRUE;
+    fclose(ptr);
+    printf("\nAccount created successfully!");
+    add_invalid:
+    printf("\n\n\n\t\tEnter 1 to go to the main menu and 0 to exit:");
+    scanf("%d",&main_exit);
+    system("cls");
+    if (main_exit==1)
+        menu();
+    else if(main_exit==0)
+            close();
     else
-        return FALSE;
+        {
+            printf("\nInvalid!\a");
+            goto add_invalid;
+        }
+}
+void view_list()
+{
+    FILE *view;
+    view=fopen("record.dat","r");
+    int test=0;
+    system("cls");
+    printf("\nACC. NO.\tNAME\t\t\tADDRESS\t\t\tPHONE\n");
+
+    while(fscanf(view,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
+       {
+           printf("\n%6d\t %10s\t\t\t%10s\t\t%.0lf",add.acc_no,add.name,add.address,add.phone);
+           test++;
+       }
+
+    fclose(view);
+    if (test==0)
+        {   system("cls");
+            printf("\nNO RECORDS!!\n");}
+
+    view_list_invalid:
+     printf("\n\nEnter 1 to go to the main menu and 0 to exit:");
+        scanf("%d",&main_exit);
+        system("cls");
+        if (main_exit==1)
+            menu();
+        else if(main_exit==0)
+            close();
+        else
+        {
+            printf("\nInvalid!\a");
+            goto view_list_invalid;
+        }
+}
+void edit(void)
+{
+    int choice,test=0;
+    FILE *old,*newrec;
+    old=fopen("record.dat","r");
+    newrec=fopen("new.dat","w");
+
+    printf("\nEnter the account no. of the customer whose info you want to change:");
+    scanf("%d",&upd.acc_no);
+    while(fscanf(old,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
+    {
+        if (add.acc_no==upd.acc_no)
+        {   test=1;
+            printf("\nWhich information do you want to change?\n1.Address\n2.Phone\n\nEnter your choice(1 for address and 2 for phone):");
+            scanf("%d",&choice);
+            system("cls");
+            if(choice==1)
+                {printf("Enter the new address:");
+                scanf("%s",upd.address);
+                fprintf(newrec,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,upd.address,add.citizenship,add.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+                system("cls");
+                printf("Changes saved!");
+                }
+            else if(choice==2)
+                {
+                    printf("Enter the new phone number:");
+                scanf("%lf",&upd.phone);
+                fprintf(newrec,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,upd.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+                system("cls");
+                printf("Changes saved!");
+                }
+
+        }
+        else
+            fprintf(newrec,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,add.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+    }
+    fclose(old);
+    fclose(newrec);
+    remove("record.dat");
+    rename("new.dat","record.dat");
+
+if(test!=1)
+        {   system("cls");
+            printf("\nRecord not found!!\a\a\a");
+            edit_invalid:
+              printf("\nEnter 0 to try again,1 to return to main menu and 2 to exit:");
+              scanf("%d",&main_exit);
+              system("cls");
+                 if (main_exit==1)
+
+                    menu();
+                else if (main_exit==2)
+                    close();
+                else if(main_exit==0)
+                    edit();
+                else
+                    {printf("\nInvalid!\a");
+                    goto edit_invalid;}
+        }
+    else
+        {printf("\n\n\nEnter 1 to go to the main menu and 0 to exit:");
+        scanf("%d",&main_exit);
+        system("cls");
+        if (main_exit==1)
+            menu();
+        else
+            close();
+        }
 }
 
-void locate(int x, int y)
+void transact(void)
+{   int choice,test=0;
+    FILE *old,*newrec;
+    old=fopen("record.dat","r");
+    newrec=fopen("new.dat","w");
+
+        printf("Enter the account no. of the customer:");
+    scanf("%d",&transaction.acc_no);
+    while (fscanf(old,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
+   {
+
+            if(add.acc_no==transaction.acc_no)
+            {   test=1;
+                if(strcmpi(add.acc_type,"fixed1")==0||strcmpi(add.acc_type,"fixed2")==0||strcmpi(add.acc_type,"fixed3")==0)
+                {
+                    printf("\a\a\a\n\nYOU CANNOT DEPOSIT OR WITHDRAW CASH IN FIXED ACCOUNTS!!!!!");
+                    fordelay(1000000000);
+                    system("cls");
+                    menu();
+
+                }
+                printf("\n\nDo you want to\n1.Deposit\n2.Withdraw?\n\nEnter your choice(1 for deposit and 2 for withdraw):");
+                scanf("%d",&choice);
+                if (choice==1)
+                {
+                    printf("Enter the amount you want to deposit:$ ");
+                    scanf("%f",&transaction.amt);
+                    add.amt+=transaction.amt;
+                    fprintf(newrec,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,add.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+                    printf("\n\nDeposited successfully!");
+                }
+                else
+                {
+                    printf("Enter the amount you want to withdraw:$ ");
+                    scanf("%f",&transaction.amt);
+                    add.amt-=transaction.amt;
+                    fprintf(newrec,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,add.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+                    printf("\n\nWithdrawn successfully!");
+                }
+
+            }
+            else
+            {
+               fprintf(newrec,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,add.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+            }
+   }
+   fclose(old);
+   fclose(newrec);
+   remove("record.dat");
+   rename("new.dat","record.dat");
+   if(test!=1)
+   {
+       printf("\n\nRecord not found!!");
+       transact_invalid:
+      printf("\n\n\nEnter 0 to try again,1 to return to main menu and 2 to exit:");
+      scanf("%d",&main_exit);
+      system("cls");
+      if (main_exit==0)
+        transact();
+    else if (main_exit==1)
+        menu();
+    else if (main_exit==2)
+        close();
+    else
+    {
+        printf("\nInvalid!");
+        goto transact_invalid;
+    }
+
+   }
+   else
+   {
+       printf("\nEnter 1 to go to the main menu and 0 to exit:");
+        scanf("%d",&main_exit);
+        system("cls");
+        if (main_exit==1)
+            menu();
+        else
+            close();
+   }
+
+}
+void erase(void)
 {
-    COORD pos = {x,y};
-    SetConsoleCursorPosition (wHnd,pos);
+    FILE *old,*newrec;
+    int test=0;
+    old=fopen("record.dat","r");
+    newrec=fopen("new.dat","w");
+    printf("Enter the account no. of the customer you want to delete:");
+    scanf("%d",&rem.acc_no);
+    while (fscanf(old,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
+   {
+        if(add.acc_no!=rem.acc_no)
+            fprintf(newrec,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,add.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+
+        else
+            {test++;
+            printf("\nRecord deleted successfully!\n");
+            }
+   }
+   fclose(old);
+   fclose(newrec);
+   remove("record.dat");
+   rename("new.dat","record.dat");
+   if(test==0)
+        {
+            printf("\nRecord not found!!\a\a\a");
+            erase_invalid:
+              printf("\nEnter 0 to try again,1 to return to main menu and 2 to exit:");
+              scanf("%d",&main_exit);
+
+                 if (main_exit==1)
+                    menu();
+                else if (main_exit==2)
+                    close();
+                else if(main_exit==0)
+                    erase();
+                else
+                    {printf("\nInvalid!\a");
+                    goto erase_invalid;}
+        }
+    else
+        {printf("\nEnter 1 to go to the main menu and 0 to exit:");
+        scanf("%d",&main_exit);
+        system("cls");
+        if (main_exit==1)
+            menu();
+        else
+            close();
+        }
 
 }
 
-int ovatglance(int overs,int runs)
+void see(void)
 {
+    FILE *ptr;
+    int test=0,rate;
+    int choice;
+    float time;
+    float intrst;
+    ptr=fopen("record.dat","r");
+    printf("Do you want to check by\n1.Account no\n2.Name\nEnter your choice:");
+    scanf("%d",&choice);
+    if (choice==1)
+    {   printf("Enter the account number:");
+        scanf("%d",&check.acc_no);
+        while (fscanf(ptr,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
+        {
+            if(add.acc_no==check.acc_no)
+            {   system("cls");
+                test=1;
+                printf("\nAccount NO.:%d\nName:%s \nDOB:%d/%d/%d \nAge:%d \nAddress:%s \nCitizenship No:%s \nPhone number:%.0lf \nType Of Account:%s \nAmount deposited:$ %.2f \nDate Of Deposit:%d/%d/%d\n\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,add.phone,
+                add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+                if(strcmpi(add.acc_type,"fixed1")==0)
+                    {
+                        time=1.0;
+                        rate=9;
+                        intrst=interest(time,add.amt,rate);
+                        printf("\n\nYou will get $%.2f as interest on %d/%d/%d",intrst,add.deposit.month,add.deposit.day,add.deposit.year+1);
+                    }
+                else if(strcmpi(add.acc_type,"fixed2")==0)
+                    {
+                        time=2.0;
+                        rate=11;
+                        intrst=interest(time,add.amt,rate);
+                        printf("\n\nYou will get $.%.2f as interest on %d/%d/%d",intrst,add.deposit.month,add.deposit.day,add.deposit.year+2);
+                    }
+                else if(strcmpi(add.acc_type,"fixed3")==0)
+                    {
+                        time=3.0;
+                        rate=13;
+                        intrst=interest(time,add.amt,rate);
+                        printf("\n\nYou will get $.%.2f as interest on %d/%d/%d",intrst,add.deposit.month,add.deposit.day,add.deposit.year+3);
+                    }
+                 else if(strcmpi(add.acc_type,"saving")==0)
+                    {
+                        time=(1.0/12.0);
+                        rate=8;
+                        intrst=interest(time,add.amt,rate);
+                        printf("\n\nYou will get $.%.2f as interest on %d of every month",intrst,add.deposit.day);
+                     }
+                 else if(strcmpi(add.acc_type,"current")==0)
+                    {
+                        printf("\n\nYou will get no interest\a\a");
+                     }
+            }
+        }
+    }
+    else if (choice==2)
+    {   printf("Enter the name:");
+        scanf("%s",&check.name);
+        while (fscanf(ptr,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
+        {
+            if(strcmpi(add.name,check.name)==0)
+            {   system("cls");
+                test=1;
+                printf("\nAccount No.:%d\nName:%s \nDOB:%d/%d/%d \nAge:%d \nAddress:%s \nCitizenship No:%s \nPhone number:%.0lf \nType Of Account:%s \nAmount deposited:$%.2f \nDate Of Deposit:%d/%d/%d\n\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,add.phone,
+                add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+                if(strcmpi(add.acc_type,"fixed1")==0)
+                    {
+                        time=1.0;
+                        rate=9;
+                        intrst=interest(time,add.amt,rate);
+                        printf("\n\nYou will get $.%.2f as interest on %d/%d/%d",intrst,add.deposit.month,add.deposit.day,add.deposit.year+1);
+                    }
+                else if(strcmpi(add.acc_type,"fixed2")==0)
+                    {
+                        time=2.0;
+                        rate=11;
+                        intrst=interest(time,add.amt,rate);
+                        printf("\n\nYou will get $.%.2f as interest on %d/%d/%d",intrst,add.deposit.month,add.deposit.day,add.deposit.year+2);
+                    }
+                else if(strcmpi(add.acc_type,"fixed3")==0)
+                    {
+                        time=3.0;
+                        rate=13;
+                        intrst=interest(time,add.amt,rate);
+                        printf("\n\nYou will get $.%.2f as interest on %d/%d/%d",intrst,add.deposit.month,add.deposit.day,add.deposit.year+3);
+                    }
+                 else if(strcmpi(add.acc_type,"saving")==0)
+                    {
+                        time=(1.0/12.0);
+                        rate=8;
+                        intrst=interest(time,add.amt,rate);
+                        printf("\n\nYou will get $.%.2f as interest on %d of every month",intrst,add.deposit.day);
+                     }
+                 else if(strcmpi(add.acc_type,"current")==0)
+                    {
+                        printf("\n\nYou will get no interest\a\a");
+                     }
+            }
+        }
+    }
+    fclose(ptr);
+     if(test!=1)
+        {   system("cls");
+            printf("\nRecord not found!!\a\a\a");
+            see_invalid:
+              printf("\nEnter 0 to try again,1 to return to main menu and 2 to exit:");
+              scanf("%d",&main_exit);
+              system("cls");
+                 if (main_exit==1)
+                    menu();
+                else if (main_exit==2)
+                    close();
+                else if(main_exit==0)
+                    see();
+                else
+                    {
+                        system("cls");
+                        printf("\nInvalid!\a");
+                        goto see_invalid;}
+        }
+    else
+        {printf("\nEnter 1 to go to the main menu and 0 to exit:");
+        scanf("%d",&main_exit);}
+        if (main_exit==1)
+        {
+            system("cls");
+            menu();
+        }
+        else
+           {
+             system("cls");
+            close();
+            }
+}
 
-    int i=1;
-    runsinoneover[overs]=runs-runsinprevover;
-    runsinprevover=runs;
-    if(runsinoneover[overs]==0)
-        bowlingteamA[bowlingcurrent].maidens++;
-    return;
+void close(void)
+{
+    printf("\n\n\n\nBrought To You by code-projects.org");
+    }
+
+
+void menu(void)
+{   int choice;
+    system("cls");
+    system("color 7");
+    printf("\n\n\t\t\t       BANKING MANAGEMENT SYSTEM");
+    printf("\n\n\n\t\t\t\xB2\xB2\xB2\xB2\xB2\xB2\xB2 WELCOME TO THE MAIN MENU \xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+    printf("\n\n\t\t[1] Create a new account\n\t\t[2] Update information of existing account\n\t\t[3] Transactions\n\t\t[4] Check the details of existing account\n\t\t[5] Remove existing account\n\t\t[6] View customer's list\n\t\t[7] ATM Feature\n\t\t[8] Exit\n\n\n\t\t Enter your choice:");
+    scanf("%d",&choice);
+    system("cls");
+    switch(choice)
+    {
+        case 1:new_acc();
+        break;
+        case 2:edit();
+        break;
+        case 3:transact();
+        break;
+        case 4:see();
+        break;
+        case 5:erase();
+        break;
+        case 6:view_list();
+        break;
+        case 7:atm();
+        break;
+        case 8:close();
+        break;
+    }
+
+
+
+}
+int main()
+{
+    char pass[10],password[10]="pass";
+    int i=0;
+    printf("\n\n\n\t\t\t\t   Bank Management System\n\t\t\t\t\t User Login ");
+    printf("\n\n\n\n\n\t\t\t\tEnter the password to login:");
+    scanf("%s",pass);
+    /*do
+    {
+    //if (pass[i]!=13&&pass[i]!=8)
+        {
+            printf("*");
+            pass[i]=getch();
+            i++;
+        }
+    }while (pass[i]!=13);
+    pass[10]='\0';*/
+    if (strcmp(pass,password)==0)
+        {printf("\n\nPassword Match!\nLOADING");
+        for(i=0;i<=6;i++)
+        {
+            fordelay(100000000);
+            printf(". ");
+        }
+        printf("\n");
+                system("pause");
+				system("cls");        
+            menu();
+        }
+    else
+        {   printf("\n\nWrong password!!\a\a\a");
+            login_try:
+            printf("\nEnter 1 to try again and 0 to exit:");
+            scanf("%d",&main_exit);
+            if (main_exit==1)
+                    {
+                        system("cls");
+                        main();
+                    }
+            else if (main_exit==0)
+                    {
+                    system("cls");
+                    close();}
+            else
+                    {printf("\nInvalid!");
+                    fordelay(1000000000);
+                    system("cls");
+                    goto login_try;}
+        }
+        return 0;
+}
+
+//ATM FEATURE - nsb code-projects
+int atm(){
+	//Functions
+
+void mainMenu();
+void checkBalance(float balance);
+float moneyDeposit(float balance);
+float moneyWithdraw(float balance);
+void menuExit();
+void errorMessage();
+
+int login(void)
+{
+  float number = 1234;
+  int pass;
+  printf("\n\n\t\t\tEnter the PIN No:");
+  scanf("%d", &pass);
+
+  if (pass == number)
+    {
+      printf("\n\nPIN Matched!\nLOADING");
+        for(i=0;i<=6;i++)
+        {
+            fordelay(100000000);
+            printf(".");
+        }
+        system("cls");
+      mainMenu();
+    }
+  else
+    {
+      printf("Invalid\n Try Again");
+      login();
+    }
+  return 0;
+}
+
+
+//Main Code
+	    //Local Declarations
+    int option;
+    float balance = 15000.00;
+    int choose;
+    bool again = true;   
+    // insert code here...
+    login();
+    while (again) {    
+    printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
+    printf("Your Selection:\t");
+    scanf("%d", &option);
+     system("CLS");  
+        switch (option) {
+            case 1:
+                checkBalance(balance);
+                break;
+            case 2:
+                balance = moneyDeposit(balance);
+                break;
+            case 3:
+                balance = moneyWithdraw(balance);
+                break;  
+            case 4:
+                menuExit();
+                return 0;                
+            default:
+                errorMessage();
+                break;
+        }       
+        printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+        printf("Would you like to do another transaction:\n");
+        printf("< 1 > Yes\n");
+        printf("< 2 > No\n");
+        scanf("%d", &choose);
+         system("CLS");           
+        if (choose == 2) {
+            again = false;
+            menuExit();          
+        }else{
+        	mainMenu();
+		}
+       
+}
+    return 0;
+    
+}//main code
+
+
+
+//Functions
+
+void mainMenu() { 
+    printf("\n\n\t\t==========Welcome to ATM Feature==========\n\n");
+    printf("\n\t\t----Please choose one of the options below----\n");
+    printf("\n\t\t< 1 >  Check Balance\n");
+    printf("\n\t\t< 2 >  Deposit\n");
+    printf("\n\t\t< 3 >  Withdraw\n");
+    printf("\n\t\t< 4 >  Exit\n\n");
+    
+}//Main Menu
+
+void checkBalance(float balance) {
+    printf("You Choose to See your Balance\n");
+    printf("****Your Available Balance is:   $%.2f\n\n", balance);
+    
+}//Check Balance
+
+float moneyDeposit(float balance) {
+    float deposit;
+    printf("You choose to Deposit a money\n");
+    printf("$$$$Your Balance is: $%.2f\n\n", balance);
+    printf("****Enter your amount to Deposit\n");
+    scanf("%f", &deposit);  
+    balance += deposit;    
+    printf("****Your New Balance is:   $%.2f\n\n", balance);
+    return balance;
+   
+    
+}//money deposit
+
+float moneyWithdraw(float balance) {
+    float withdraw;
+    bool back = true;    
+    printf("You choose to Withdraw a money\n");
+    printf("$$$$Your Balance is: $%.2f\n\n", balance);    
+    while (back) {
+    printf("Enter your amount to withdraw:\n");
+    scanf("%f", &withdraw);      
+    if (withdraw < balance) {
+        back = false;
+        balance -= withdraw;
+        printf("$$$$Your withdrawing money is:  $%.2f\n", withdraw);
+        printf("****Your New Balance is:   $%.2f\n\n", balance);     
+    }   
+        else  {    
+        printf("+++You don't have enough money+++\n");
+        printf("Please contact to your Bank Customer Services\n");
+        printf("****Your Balance is:   $%.2f\n\n", balance);  
+    }
+    }
+    return balance;
+    
+    
+}//money withdraw
+
+void menuExit() {
+    printf("--------------Take your receipt!!!------------------\n");
+    printf("-----Thank you for using ATM Banking Machine!!!-----\n");
+    printf("-----      Brought To by code-projects.org      -----\n");
+    
+    
+}//exit menu
+
+void errorMessage() {;
+    printf("+++!!!You selected invalid number!!!+++\n");
 }
